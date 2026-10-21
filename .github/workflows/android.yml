@@ -37,7 +37,6 @@ jobs:
           include_filter=""
           exclude_filter=""
           export_path="build/FishingLegend.apk"
-          patch ભૂ
           encryption_include_filters=""
           encryption_exclude_filters=""
           encrypt_pck=false
@@ -51,7 +50,7 @@ jobs:
           gradle_build/export_format=0
           package/unique_name="com.fishinglegend.mobile"
           package/name="Fishing Legend"
-          package/signed=true
+          package/signed=false
           package/app_category=0
           package/short_name="FishLegend"
           version/code=1
@@ -65,7 +64,7 @@ jobs:
         run: godot --headless --editor --path . --quit
 
       - name: Export APK
-        run: godot --headless --path . --export-release "Android" build/FishingLegend.apk
+        run: godot --headless --path . --export-debug "Android" build/FishingLegend.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
