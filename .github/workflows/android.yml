@@ -109,6 +109,12 @@ jobs:
           architectures/arm64-v8a=true
           permissions/internet=false
           EOF
+          echo "=== Export preset options recognized by Godot ==="
+          godot --headless --path . --editor --quit 2>&1 | tee build/preset-check.log
+          if grep -Ei 'unrecognized.*(architecture|package|version|gradle|permissions)|unknown.*option|invalid.*option' build/preset-check.log; then
+            echo "Invalid Android export preset option detected" >&2
+            exit 1
+          fi
 
       - name: Export APK
         shell: bash
