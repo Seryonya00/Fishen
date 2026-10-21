@@ -189,9 +189,9 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag and event.index == joystick_touch:
 			joystick = ((event.position - joystick_origin) / 75.0).limit_length(1.0)
 	elif event is InputEventScreenDrag and event.index == look_touch and look_touch >= 0:
-		var delta := event.position - last_touch
+		var drag_delta: Vector2 = event.position - last_touch
 		last_touch = event.position
-		_rotate_view(delta)
+		_rotate_view(drag_delta)
 	elif event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		_rotate_view(event.relative)
 
