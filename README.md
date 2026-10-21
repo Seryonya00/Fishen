@@ -1,26 +1,31 @@
 # Fishing Legend
 
-A mobile-first 3D fishing game prototype built with Godot 4.
+Mobile-first 3D fishing prototype built with Godot 4.3.
 
-## Current vertical slice
-- First-person lakeside scene generated procedurally (no paid assets)
-- Touch-friendly movement/look and fishing controls
-- Casting, bite timing, hook setting, fish fight/tension, catch log, sell catch and silver progression
-- Equipment stats and simple tackle shop
-- Save/load with `user://savegame.json`
-- Android APK build workflow via GitHub Actions
+## Build Android APK
 
-## Build locally
-1. Install Godot 4.3+ and Android export templates.
-2. Open `project.godot` in Godot.
-3. Configure Android SDK/JDK in Editor Settings and Android export preset.
-4. Export Android APK.
+The GitHub Actions workflow at `.github/workflows/android.yml` builds a debug APK on every push to `main` and on manual dispatch.
 
-## CI build
-Push to `main` or run **Actions → Build Android APK**. The workflow installs Godot Android export templates, creates a temporary Android export preset, and uploads the APK as a workflow artifact.
+1. Open the repository's **Actions** tab.
+2. Select **Build Android APK**.
+3. Open a successful run and download the `FishingLegend-Android-APK` artifact.
 
-## Assets and licenses
-The initial scene uses procedural geometry so it starts without downloads. Asset sources to integrate are [Poly Haven](https://polyhaven.com/) (CC0), [Quaternius](https://quaternius.com/) (check each pack's current license; many are CC0), and [Kenney](https://kenney.nl/) (check each asset pack's license). Do not redistribute source asset packs as standalone content.
+The workflow installs Java 17, Godot 4.3 with export templates, and Android SDK Platform 34 / Build Tools 34.0.0. It configures Godot's Android SDK and Java paths, validates the project, exports the APK, and checks that the APK archive is readable.
 
-## Scope
-This is a playable prototype/vertical slice, not yet the full feature list: additional locations, fish species/animations, boats, winter fishing, quests, online leaderboards and monetization require future iterations and device testing.
+## Project layout
+
+- `project.godot` — Godot project settings.
+- `scenes/main.tscn` — main 3D scene.
+- `scripts/main.gd` — procedural scene and mobile gameplay.
+- `scripts/game.gd` — gameplay systems under development.
+- `export_presets.cfg` — tracked Android debug export preset.
+- `.github/workflows/android.yml` — CI validation and APK build.
+
+## Current prototype
+
+- Procedural first-person lakeside environment.
+- Touch-friendly movement and fishing controls.
+- Casting, bite timing, hooking, fish fighting, catch log and silver progression.
+- Lightweight procedural assets; no paid asset dependencies.
+
+This is a prototype, not yet a complete simulation of every feature in the design brief. A successful CI run confirms that the APK was exported and its archive is readable; install and test it on a physical Android device before publishing.
