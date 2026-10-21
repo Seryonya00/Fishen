@@ -85,6 +85,15 @@ func _box(n: String, pos: Vector3, size: Vector3, color: Color, transparent := f
         mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
     m.material_override = mat
     add_child(m)
+    var body := StaticBody3D.new()
+    body.name = n + "Collision"
+    body.position = pos
+    var collision := CollisionShape3D.new()
+    var shape := BoxShape3D.new()
+    shape.size = size
+    collision.shape = shape
+    body.add_child(collision)
+    add_child(body)
     return m
 
 func _tree(pos: Vector3) -> void:
