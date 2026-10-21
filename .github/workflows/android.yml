@@ -74,46 +74,10 @@ jobs:
           test -d "$SDK_ROOT/build-tools/34.0.0"
           echo "Android SDK installed at $SDK_ROOT"
 
-      - name: Configure Android export preset
+      - name: Configure Godot Android SDK paths
         shell: bash
         run: |
           set -euxo pipefail
-          mkdir -p build
-          cat > export_presets.cfg <<'EOF'
-          [preset.0]
-          name="Android"
-          platform="Android"
-          runnable=true
-          dedicated_server=false
-          custom_features=""
-          export_filter="all_resources"
-          include_filter=""
-          exclude_filter=""
-          export_path="build/FishingLegend.apk"
-          encryption_include_filters=""
-          encryption_exclude_filters=""
-          encrypt_pck=false
-          encrypt_directory=false
-          script_export_mode=2
-
-          [preset.0.options]
-          custom_template/debug=""
-          custom_template/release=""
-          gradle_build/use_gradle_build=false
-          gradle_build/export_format=0
-          package/unique_name="com.fishinglegend.mobile"
-          package/name="Fishing Legend"
-          package/signed=false
-          package/app_category=0
-          package/short_name="FishLegend"
-          version/code=1
-          version/name="1.0.0"
-          architectures/armeabi-v7a=false
-          architectures/arm64-v8a=true
-          permissions/internet=false
-          EOF
-          # Godot reads Android SDK and Java paths from global editor settings,
-          # not only from ANDROID_HOME / JAVA_HOME environment variables.
           mkdir -p "$HOME/.config/godot"
           cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
           [gd_resource type="EditorSettings" format=3]
@@ -122,14 +86,8 @@ jobs:
           export/android/android_sdk_path = "$ANDROID_SDK_ROOT"
           export/android/java_sdk_path = "$JAVA_HOME"
           EOF
-          echo "=== Godot Android SDK settings ==="
-          cat "$HOME/.config/godot/editor_settings-4.tres"
-          echo "=== Validate project and Android preset ==="
-          godot --headless --verbose --path . --editor --quit 2>&1 | tee build/preset-check.log
-          if grep -Ei 'Android SDK path.*(not configured|invalid|not found)|Java SDK path.*(not configured|invalid|not found)|No export template|export template.*not found' build/preset-check.log; then
-            echo "Android export prerequisites are not configured correctly" >&2
-            exit 1
-          fi
+          test -f export_presets.cfg
+          grep -q 'name="Android"' export_presets.cfg
 
       - name: Export APK
         shell: bash
@@ -138,6 +96,8 @@ jobs:
           godot --headless --path . --editor --quit
           godot --headless --verbose --path . --export-debug "Android" build/FishingLegend.apk 2>&1 | tee build/export.log
           test -s build/FishingLegend.apk
+          file build/FishingLegend.apk
+          unzip -t build/FishingLegend.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
