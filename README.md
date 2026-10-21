@@ -1,31 +1,24 @@
 # Fishing Legend
 
-Mobile-first 3D fishing prototype built with Godot 4.3.
+A mobile-first 3D fishing prototype made with **Godot 4.7.2**.
 
-## Build Android APK
+## Android APK build
 
-The GitHub Actions workflow at `.github/workflows/android.yml` builds a debug APK on every push to `main` and on manual dispatch.
+GitHub Actions builds the APK on every push to `main` and on manual dispatch.
 
 1. Open the repository's **Actions** tab.
-2. Select **Build Android APK**.
-3. Open a successful run and download the `FishingLegend-Android-APK` artifact.
+2. Select **Build Android APK** and open the latest run.
+3. When the run succeeds, download the artifact named `FishingLegend-Android-APK`.
 
-The workflow installs Java 17, Godot 4.3 with export templates, and Android SDK Platform 34 / Build Tools 34.0.0. It configures Godot's Android SDK and Java paths, validates the project, exports the APK, and checks that the APK archive is readable.
-
-## Project layout
-
-- `project.godot` — Godot project settings.
-- `scenes/main.tscn` — main 3D scene.
-- `scripts/main.gd` — procedural scene and mobile gameplay.
-- `scripts/game.gd` — gameplay systems under development.
-- `export_presets.cfg` — tracked Android debug export preset.
-- `.github/workflows/android.yml` — CI validation and APK build.
+The workflow installs Godot 4.7.2 and its matching export templates, Java 17, and Android SDK packages. It runs a headless project import/parse step before exporting and checks the APK archive before uploading it.
 
 ## Current prototype
 
-- Procedural first-person lakeside environment.
-- Touch-friendly movement and fishing controls.
-- Casting, bite timing, hooking, fish fighting, catch log and silver progression.
-- Lightweight procedural assets; no paid asset dependencies.
+- Procedural first-person lakeside world, pier, trees, reeds, and a small village.
+- Touch movement and swipe look controls.
+- Casting, bite timing, hooking, tension-based fish fighting, catch log, selling fish, silver, levels, and local save.
+- Android ARM64 debug APK preset.
 
-This is a prototype, not yet a complete simulation of every feature in the design brief. A successful CI run confirms that the APK was exported and its archive is readable; install and test it on a physical Android device before publishing.
+## Limitations
+
+This is an early playable prototype, not a complete fishing simulator yet. More fishing gear, locations, fish models/animations, weather, sound, quests, and device testing remain to be implemented. A green workflow and valid APK archive are required before considering the build verified; install the artifact on a physical Android device to test actual gameplay.

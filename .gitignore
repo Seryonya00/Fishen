@@ -1,18 +1,5 @@
-# Godot generated editor/cache files
-.godot/
-.import/
-export.cfg
-*.translation
-
-# Build artifacts
-build/
+/.godot/
+/build/
+/.export/
 *.apk
 *.aab
-*.keystore
-*.jks
-
-# IDE / OS
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
