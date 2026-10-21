@@ -32,7 +32,7 @@ jobs:
 
   android:
     name: Export Android APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     steps:
       - name: Checkout repository
@@ -51,17 +51,22 @@ jobs:
           use-dotnet: false
           include-templates: true
 
-      - name: Install Android SDK packages
+      - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: 'platform-tools,platforms;android-34,build-tools;34.0.0'
-          cmdline-tools-version: '12266719'
+
+      - name: Install Android SDK packages
+        shell: bash
+        run: |
+          set -euxo pipefail
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
 
       - name: Configure Android export preset
         shell: bash
         run: |
           set -euxo pipefail
-          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
           mkdir -p build
           cat > export_presets.cfg <<'EOF'
           [preset.0]
