@@ -105,8 +105,8 @@ jobs:
           package/short_name="FishLegend"
           version/code=1
           version/name="1.0.0"
-          architecture/armeabi-v7a=false
-          architecture/arm64-v8a=true
+          architectures/armeabi-v7a=false
+          architectures/arm64-v8a=true
           permissions/internet=false
           EOF
 
@@ -115,7 +115,7 @@ jobs:
         run: |
           set -euxo pipefail
           godot --headless --path . --editor --quit
-          godot --headless --path . --export-debug "Android" build/FishingLegend.apk
+          godot --headless --verbose --path . --export-debug "Android" build/FishingLegend.apk 2>&1 | tee build/export.log
           test -s build/FishingLegend.apk
 
       - name: Upload APK
